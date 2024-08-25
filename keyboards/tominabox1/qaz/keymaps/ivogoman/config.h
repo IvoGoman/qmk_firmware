@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef COMBO_ENABLE
-#    define COMBO_TERM 200
+#    define COMBO_TERM 300
 #endif
 
 #define RETRO_SHIFT
