@@ -15,17 +15,17 @@
  */
 #include QMK_KEYBOARD_H
 
-#define LTNAV_ENT LT(4, KC_ENT)
+#define LTNAV_BSPC LT(4, KC_BSPC)
 #define LTSYM_SPC LT(2, KC_SPC)
-#define LTNUM_BSPC LT(1, KC_BSPC)
+#define LTNUM_TAB LT(1, KC_TAB)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(
-               KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOTE,    KC_BSPC,
-               QK_GESC,  LCTL_T(KC_A), LALT_T(KC_R), LSFT_T(KC_S), LGUI_T(KC_T),  KC_D,       KC_H,    RGUI_T(KC_N), RSFT_T(KC_E), LALT_T(KC_I), RCTL_T(KC_O), KC_ENT,
-               KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_UP,   KC_SLASH,
-               KC_LCTL,  KC_LALT,                   KC_ESC, LTNAV_ENT,          LTSYM_SPC, LTNUM_BSPC,                 KC_LEFT, KC_DOWN, KC_RGHT
+               KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                       KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOTE,    KC_BSPC,
+               KC_ESC,  LCTL_T(KC_A), LALT_T(KC_R), LSFT_T(KC_S), LGUI_T(KC_T),  KC_D,  KC_H,    RGUI_T(KC_N),     RSFT_T(KC_E), LALT_T(KC_I), RCTL_T(KC_O), KC_ENT,
+               KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                      KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_UP,   KC_SLASH,
+               KC_LCTL,  KC_LALT,                   KC_ESC, LTNAV_BSPC,          LTSYM_SPC, LTNUM_TAB,                 KC_LEFT, KC_DOWN, KC_RGHT
              ),
     // [0] = LAYOUT(
     //            KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
@@ -40,10 +40,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                KC_VOLD,    KC_DOT,                   KC_0,    KC_MINS,     KC_NO,    KC_NO,                KC_NO,   KC_NO,  KC_NO
              ),
     [2] = LAYOUT(
-               RGB_TOG,   KC_LCBR, KC_AMPR,  KC_ASTR, KC_DOT,  KC_RCBR,                   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-               KC_NO,     KC_COLN, KC_DLR,   KC_PERC, KC_LBRC, KC_PLUS,                   KC_NO,   KC_LSFT, KC_LGUI, KC_LALT, KC_LCTL, KC_NO,
-               KC_NO,     KC_TILD, KC_EXLM,  KC_AT,   KC_HASH, KC_PIPE,            KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-               KC_NO,     KC_UNDS,                    KC_LPRN, KC_RPRN,            KC_NO, KC_NO,                     KC_NO,   KC_NO,   KC_NO
+               RGB_TOG,   KC_LCBR, KC_AMPR,  KC_ASTR, KC_LPRN, KC_RCBR,                   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+               RGB_VAI,   KC_COLN, KC_DLR,   KC_PERC, KC_CIRC, KC_PLUS,                   KC_NO,   KC_LSFT, KC_LGUI, KC_LALT, KC_LCTL, KC_NO,
+               RGB_VAD,   KC_TILD, KC_EXLM,  KC_AT,   KC_HASH, KC_PIPE,            KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   RGB_HUI,  RGB_SAI,
+               KC_NO,     KC_UNDS,                    KC_RPRN, KC_UNDS,            KC_NO, KC_NO,                     KC_NO,   RGB_HUD,  RGB_SAD
              ),
     [3] = LAYOUT(
                QK_BOOT,  KC_F12,   KC_F7,   KC_F8,   KC_F9,   KC_NO,                     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
@@ -55,6 +55,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                QK_BOOT,  KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,                     KC_AGIN,   KC_PSTE,   KC_COPY,   KC_CUT,   KC_UNDO,    KC_NO,
                KC_NO,    KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT,  KC_NO,                     KC_NO,   KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_NO,
                KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,            KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,
-               KC_NO,    KC_NO,                      KC_NO,   KC_NO,            KC_TAB,   KC_NO,                     KC_NO,   KC_NO,    KC_NO
+               KC_NO,    KC_NO,                      KC_NO,   KC_NO,            KC_ENT,   KC_NO,                     KC_NO,   KC_NO,    KC_NO
              )
 };
+
+
+#ifdef RGBLIGHT_ENABLE
+void keyboard_post_init_user(void) {
+  rgblight_enable_noeeprom(); // Enables RGB, without saving settings
+  rgblight_sethsv_noeeprom(HSV_GREEN);
+  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+}
+#endif
